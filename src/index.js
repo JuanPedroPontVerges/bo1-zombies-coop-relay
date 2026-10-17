@@ -67,7 +67,8 @@ export default {
     headers.set("x-room", room);
     headers.set("x-role", role);
     headers.set("x-guest-id", role === "guest" ? url.searchParams.get("id") ?? "" : "");
-    const stub = env.ROOM_RELAY.get(env.ROOM_RELAY.idFromName(`room:${room}`));
+    // Rooms are created near South America (a hint, not a guarantee).
+    const stub = env.ROOM_RELAY.get(env.ROOM_RELAY.idFromName(`room:${room}`), { locationHint: "sam" });
     try {
       return await stub.fetch(new Request(request, { headers }));
     } catch (error) {
